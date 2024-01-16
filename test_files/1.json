@@ -1,0 +1,18 @@
+{
+    "str1": "some_value",
+    "bool1": false,
+    "null1": "it can be null or not",
+    "object1": {
+        "obj_str2": "value_for_str2",
+	"obj_int1": 82,
+        "array_int1": [
+            2001,
+            2002
+        ]
+    },
+    "array_object": [
+        {
+            "var5": "val5_0"
+        }
+    ]
+}

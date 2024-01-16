@@ -1,0 +1,41 @@
+{
+	"name": "Swedbank",
+	"country":"Latvia",
+	"companies":[{
+		"name":"Swedbank AS",
+		"addr":"Balasta Dambis 15",
+		"city":"Riga",
+		"postcode":"LV-1048",
+		"registration_number":"40003074764"
+	}],
+	"branches": [{
+		"name":"CENTRS FIL.",
+		"addr":"Kaļķu iela 26",
+		"city":"Rīga",
+		"additional_info":["ATM", "ATM24"],
+		"GPS":{"lat":56.949761, "lon":24.110966}
+	},{
+		"name":"ORIGO FIL.",
+		"addr":"Stacijas laukums 2",
+		"city":"Rīga",
+		"additional_info":["ATM", "ATM24"],
+		"GPS":{"lat":56.946821, "lon":24.120435}
+	},{
+		"name":"ĶĪPSALA FIL.",
+		"addr":"Balasta dambis 15",
+		"city":"RĪGA",
+		"additional_info":["ATM", "ATM24"],
+		"GPS":{"lat":56.949046, "lon":24.088947}
+	}],
+	"ATMs": [
+	{	
+		"description":"Āgenskalns Maxima X",
+		"addr":"Melnsila iela 22",
+		"GPS":{"lat":56.945242, "lon":24.065276}
+	},{
+		"description":"Zolitūte Mego",
+		"addr":"A. Bieziņa iela 8",
+		"GPS":{"lat":56.945325, "lon":24.0227}
+	}]
+
+}

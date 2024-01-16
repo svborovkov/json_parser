@@ -1,0 +1,43 @@
+{
+	"name": "Citadele",
+	"country":"Latvia",
+	"companies":[{
+		"name":"AS Citadele banka",
+		"addr":"Republikas laukums 2A",
+		"city":"Riga",
+		"postcode":"LV-1010",
+		"registration_number":"40103303559"
+	},
+	{
+		"name":"Citadele leasing Ltd.",
+		"addr":"Republikas laukums 2A",
+		"city":"Riga",
+		"postcode":"LV-1010",
+		"registration_number":"40003423085"
+	},
+	{
+		"name":"Citadele Factoring Ltd.",
+		"addr":"Republikas laukums 2A",
+		"city":"Riga",
+		"postcode":"LV-1010",
+		"registration_number":"50003760921"
+	}],
+	"branches": [{
+		"addr":"Ieriku street 3",
+		"city":"Riga",
+		"additional_info":["ATM"]
+	},{
+		"addr":"Brīvības gatve 372",
+		"city":"Riga",
+		"additional_info":["ATM", "ATM_24"]
+	},{
+		"addr":"Rigas street 23",
+		"city":"Ogre",
+		"additional_info":["ATM"]
+	},{
+		"addr":"Mātera iela 23/25",
+		"city":"Jelgava",
+		"additional_info":["ATM"]
+	}]
+
+}

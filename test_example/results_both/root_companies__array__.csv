@@ -1,0 +1,4 @@
+filename;root/companies/_array_/;name;addr;city;postcode;registration_number
+test_example\luminor.json;0;Luminor Bank AS Latvijas filiāle;Skanstes iela 12; Rīga;;
+test_example\seb.json;0;AS SEB Banka;Meistaru iela 1;;;
+test_example\seb.json;1;SIA Seb Lizings;Meistaru iela 1;;;

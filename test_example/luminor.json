@@ -1,0 +1,18 @@
+{
+	"name": "Lumintor",
+	"companies":[{
+		"name":"Luminor Bank AS Latvijas filiāle",
+		"addr":"Skanstes iela 12",
+		"city":" Rīga"
+	}],
+	"ATMs": [{
+		"addr":"Rīgas iela 22a",
+		"city":"Ķekava",
+		"additional_info":["ATM"]
+	},{
+		"addr":"Pededzes iela 1",
+		"city":"Mārupe",
+		"additional_info":["ATM"]
+	}]
+
+}

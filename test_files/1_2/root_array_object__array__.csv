@@ -1,0 +1,6 @@
+filename;root/array_object/_array_/;var5;var1;var2;var3
+test_files\1.json;0;val5_0;;;
+test_files\2.json;0;;val1_0;val2_0;
+test_files\2.json;1;;val1_1;;
+test_files\2.json;2;;;val2_2;
+test_files\2.json;3;;val1_3;;val3_3

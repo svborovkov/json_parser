@@ -1,0 +1,5 @@
+filename;root/companies/_array_/;name;addr;city;postcode;registration_number
+train\10041.json;0;AS Citadele banka;Republikas laukums 2A;Riga;LV-1010;40103303559
+train\10041.json;1;Citadele leasing Ltd.;Republikas laukums 2A;Riga;LV-1010;40003423085
+train\10041.json;2;Citadele Factoring Ltd.;Republikas laukums 2A;Riga;LV-1010;50003760921
+train\10042.json;0;Swedbank AS;Balasta Dambis 15;Riga;LV-1048;40003074764

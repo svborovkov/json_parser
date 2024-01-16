@@ -1,0 +1,19 @@
+{
+    "str1": "test",
+    "object1": {
+	"obj_int1": 82,
+        "array_int1": [
+            1000005
+        ]
+    },
+    "array_str1": [
+        "first_value",
+        "second_value",
+        "third_value"
+    ],
+    "array_object": [
+        {
+            "var1": "value_for_var1_only"
+        }
+    ]
+}

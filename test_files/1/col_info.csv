@@ -1,0 +1,13 @@
+col;type;dataframe
+filename;object;root/
+str1;object;root/
+bool1;bool;root/
+null1;object;root/
+object1/obj_str2;object;root/
+object1/obj_int1;int64;root/
+filename;object;root/array_object/_array_/
+root/array_object/_array_/;int64;root/array_object/_array_/
+var5;object;root/array_object/_array_/
+filename;object;root/object1/array_int1/_array_/
+root/object1/array_int1/_array_/;int64;root/object1/array_int1/_array_/
+unnamed_value;int64;root/object1/array_int1/_array_/

@@ -1,0 +1,37 @@
+{
+    "str1": "a",
+    "int1": 5,
+    "bool1": true,
+    "null1": null,
+    "object1": {
+        "obj_str1": "os1",
+        "obj_str2": "os2",
+	"obj_int1": 8,
+        "array_int1": [
+            1,
+            2
+        ]
+    },
+    "array_str1": [
+        "a1",
+        "a2",
+        "a3",
+        "a4"
+    ],
+    "array_object": [
+        {
+            "var1": "val1_0",
+            "var2": "val2_0"
+        },
+        {
+            "var1": "val1_1"
+        },
+        {
+            "var2": "val2_2"
+        },
+        {
+            "var1": "val1_3",
+            "var3": "val3_3"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+	"name": "AS SEB Banka",
+	"companies":[{
+		"name":"AS SEB Banka",
+		"addr":"Meistaru iela 1"
+	},
+	{
+		"name":"SIA Seb Lizings",
+		"addr":"Meistaru iela 1"
+	}]
+}
