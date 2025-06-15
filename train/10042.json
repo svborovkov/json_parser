@@ -11,21 +11,26 @@
 	"branches": [{
 		"name":"CENTRS FIL.",
 		"addr":"Kaļķu iela 26",
-		"city":"Rīga",
+		"city":"Riga",
 		"additional_info":["ATM", "ATM24"],
 		"GPS":{"lat":56.949761, "lon":24.110966}
 	},{
 		"name":"ORIGO FIL.",
 		"addr":"Stacijas laukums 2",
-		"city":"Rīga",
+		"city":"Riga",
 		"additional_info":["ATM", "ATM24"],
 		"GPS":{"lat":56.946821, "lon":24.120435}
 	},{
 		"name":"ĶĪPSALA FIL.",
 		"addr":"Balasta dambis 15",
-		"city":"RĪGA",
+		"city":"Riga",
 		"additional_info":["ATM", "ATM24"],
 		"GPS":{"lat":56.949046, "lon":24.088947}
+	},{
+		"name":"Ogre FIL.",
+		"addr":"Brivibas 19B",
+		"city":"Ogre",
+		"additional_info":["ATM", "ATM24"]
 	}],
 	"ATMs": [
 	{	
