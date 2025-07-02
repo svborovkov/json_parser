@@ -1,0 +1,14 @@
+filename,root/branches/,root/branches/additional_info/,unnamed_value
+train_simplified_arrays\10041.json,0,0,ATM_no_array
+train_simplified_arrays\10041.json,1,0,ATM
+train_simplified_arrays\10041.json,1,1,ATM_24
+train_simplified_arrays\10041.json,2,0,ATM
+train_simplified_arrays\10041.json,3,0,ATM
+train_simplified_arrays\10042.json,0,0,ATM
+train_simplified_arrays\10042.json,0,1,ATM24
+train_simplified_arrays\10042.json,1,0,ATM
+train_simplified_arrays\10042.json,1,1,ATM24
+train_simplified_arrays\10042.json,2,0,ATM
+train_simplified_arrays\10042.json,2,1,ATM24
+train_simplified_arrays\10042.json,3,0,ATM
+train_simplified_arrays\10042.json,3,1,ATM24

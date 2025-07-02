@@ -25,7 +25,7 @@
 	"branches": [{
 		"addr":"Ieriku street 3",
 		"city":"Riga",
-		"additional_info":["ATM"]
+		"additional_info":"ATM_no_array"
 	},{
 		"addr":"Brīvības gatve 372",
 		"city":"Riga",

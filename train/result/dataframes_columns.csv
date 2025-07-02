@@ -8,6 +8,12 @@ description,object,root/ATMs/_array_/
 addr,object,root/ATMs/_array_/
 GPS/lat,float64,root/ATMs/_array_/
 GPS/lon,float64,root/ATMs/_array_/
+filename,object,root/array_in_array/_array_/
+root/array_in_array/_array_/,int64,root/array_in_array/_array_/
+filename,object,root/array_in_array/_array_/_array_/
+root/array_in_array/_array_/,int64,root/array_in_array/_array_/_array_/
+root/array_in_array/_array_/_array_/,int64,root/array_in_array/_array_/_array_/
+unnamed_value,int64,root/array_in_array/_array_/_array_/
 filename,object,root/branches/_array_/
 root/branches/_array_/,int64,root/branches/_array_/
 addr,object,root/branches/_array_/

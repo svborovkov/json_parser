@@ -27,6 +27,16 @@ def add_columns_to_df(df, column_info_df):
 
 class json_parser:
 
+    def __init__(self, simplified_arrays=True):
+        """
+        simplified_arrays - if True, then arrays will be detected even in case there is no "[ ]" in some json documents
+            Also, dataframe names will not contain "_array_/" suffix.
+            Warning: this mode doesn't support arrays in arrays - [[1,2,3], [4,5,6]] 
+        If False, then arrays will be represented in dataframe with "_array_/" suffix. In this case, arrays should be
+            represented in json documents with "[ ]" brackets.
+        """
+        self.simplified_arrays = simplified_arrays
+
     def extract_repeat_nodes(self, jsons_dict):
         repeat_nodes = set([])
         for json_doc in jsons_dict.values():
@@ -57,7 +67,8 @@ class json_parser:
                                    current_repeat_node="root/",
                                    current_path_in_repeat_node="",
                                    current_data=extracted_data,
-                                   ids_dict=initial_ids_dict)
+                                   ids_dict=initial_ids_dict,
+                                   repeat_nodes=repeat_nodes)
 
         extracted_data_dfs = {name: pd.DataFrame.from_records(
             data) for name, data in extracted_data.items()}
@@ -85,7 +96,10 @@ class json_parser:
 
     def __erp_process_element(self, node, current_path, repeat_nodes):
         if isinstance(node, list):
-            repeat_nodes.add(current_path + "_array_/")
+            name = current_path
+            if not self.simplified_arrays:
+                name += "_array_/"
+            repeat_nodes.add(name)
             self.__erp_process_list(node, current_path, repeat_nodes)
         elif isinstance(node, dict):
             self.__erp_process_dict(node, current_path, repeat_nodes)
@@ -101,26 +115,36 @@ class json_parser:
         return
 
     def __erp_process_list(self, lst, current_path, repeat_nodes):
+        path = current_path
+        if not self.simplified_arrays:
+            path += "_array_/"
         for value in lst:
             self.__erp_process_element(
-                value, current_path + "_array_/", repeat_nodes)
+                value, path, repeat_nodes)
         return
 
-    def __ed_process_node(self, node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict):
-        if isinstance(node, list):
+    def __ed_process_node(self, node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes):
+        if isinstance(node, list): 
             self.__ed_process_list(
-                node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict)
+                node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes)
+        elif self.simplified_arrays and current_path_in_repeat_node != "" and current_repeat_node + current_path_in_repeat_node + "/" in repeat_nodes:
+            # If simplified_arrays is True, we can consider usual data as elements of arrays
+            self.__ed_process_list(
+                [node], current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes)
         elif isinstance(node, dict):
             self.__ed_process_dict(
-                node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict)
+                node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes)
         else:
             raise Exception("ERROR. Now simple data shoule be read by dict or list functions",
                             current_repeat_node + current_path_in_repeat_node, " type:", type(node), " ", node)
         return
 
-    def __ed_process_list(self, node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict):
-        new_repeat_path = current_repeat_node + \
-            current_path_in_repeat_node + "/_array_/"
+    def __ed_process_list(self, node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes):
+        new_repeat_path = current_repeat_node
+        if current_path_in_repeat_node != "": # this if is required for array in array because current_path_in_repeat_node is empty
+            new_repeat_path += current_path_in_repeat_node + "/"
+        if not self.simplified_arrays:
+            new_repeat_path += "_array_/"
         if not new_repeat_path in current_data:
             print("Warning! New array at path:", new_repeat_path,
                   ", data is ignored. Info:", ids_dict)
@@ -135,13 +159,14 @@ class json_parser:
                                            current_repeat_node=new_repeat_path,
                                            current_path_in_repeat_node="",
                                            current_data=current_data,
-                                           ids_dict=new_ids_dict)
+                                           ids_dict=new_ids_dict,
+                                           repeat_nodes = repeat_nodes)
                 else:  # value
                     current_data[new_repeat_path][-1].update(
                         {'unnamed_value': subnode})
         return
 
-    def __ed_process_dict(self, node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict):
+    def __ed_process_dict(self, node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes):
         for name, subnode in node.items():
             if current_path_in_repeat_node != "":
                 new_path_repeat_node = current_path_in_repeat_node + "/" + name
@@ -152,7 +177,15 @@ class json_parser:
                                        current_repeat_node=current_repeat_node,
                                        current_path_in_repeat_node=new_path_repeat_node,
                                        current_data=current_data,
-                                       ids_dict=ids_dict)
+                                       ids_dict=ids_dict,
+                                       repeat_nodes = repeat_nodes)
+            elif self.simplified_arrays and current_repeat_node + current_path_in_repeat_node + name +"/" in repeat_nodes:
+                self.__ed_process_node(node=[subnode], # imulate array
+                                       current_repeat_node=current_repeat_node,
+                                       current_path_in_repeat_node=new_path_repeat_node,
+                                       current_data=current_data,
+                                       ids_dict=ids_dict,
+                                       repeat_nodes = repeat_nodes)
             else:  # value
                 current_data[current_repeat_node][-1].update(
                     {new_path_repeat_node: subnode})

@@ -1,0 +1,9 @@
+filename,root/branches/,addr,city,name,GPS/lat,GPS/lon
+train_simplified_arrays\10041.json,0,Ieriku street 3,Riga,,,
+train_simplified_arrays\10041.json,1,Brīvības gatve 372,Riga,,,
+train_simplified_arrays\10041.json,2,Rigas street 23,Ogre,,,
+train_simplified_arrays\10041.json,3,Mātera iela 23/25,Jelgava,,,
+train_simplified_arrays\10042.json,0,Kaļķu iela 26,Riga,CENTRS FIL.,56.949761,24.110966
+train_simplified_arrays\10042.json,1,Stacijas laukums 2,Riga,ORIGO FIL.,56.946821,24.120435
+train_simplified_arrays\10042.json,2,Balasta dambis 15,Riga,ĶĪPSALA FIL.,56.949046,24.088947
+train_simplified_arrays\10042.json,3,Brivibas 19B,Ogre,Ogre FIL.,,
