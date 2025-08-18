@@ -3,6 +3,8 @@ import pandas as pd
 import os
 import os.path
 import re
+import xmltodict
+
 import json_parser
 
 
@@ -47,8 +49,15 @@ for f in os.listdir(train_dir):
             json_str = fd.read()
         json_dict[full_fn] = json_str
 
+        # in case of XML documents one can use
+        # xml_dict[full_fn] = xmltodict.parse(xml_str)
+
 # init parser object
 parser = json_parser.json_parser(simplified_arrays = simplified_arrays)
+
+# in case of XML:
+# parser = json_parser.json_parser(simplified_arrays = simplified_arrays, type_of_data="raw")
+
 
 # extract info about arrays
 repeat_nodes = parser.extract_repeat_nodes(json_dict)

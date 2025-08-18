@@ -27,7 +27,7 @@ def add_columns_to_df(df, column_info_df):
 
 class json_parser:
 
-    def __init__(self, simplified_arrays=True):
+    def __init__(self, simplified_arrays=True, ignore_empty_arrays=True, type_of_data="json"):
         """
         simplified_arrays - if True, then arrays will be detected even in case there is no "[ ]" in some json documents
             Also, dataframe names will not contain "_array_/" suffix.
@@ -36,12 +36,24 @@ class json_parser:
             represented in json documents with "[ ]" brackets.
         """
         self.simplified_arrays = simplified_arrays
+        self.ignore_empty_arrays = ignore_empty_arrays
+        self.type_of_data = type_of_data
 
-    def extract_repeat_nodes(self, jsons_dict):
+    def extract_repeat_nodes(self, dict_with_data):
         repeat_nodes = set([])
-        for json_doc in jsons_dict.values():
-            self.__erp_process_element(
-                json.loads(json_doc), "root/", repeat_nodes)
+        for raw_data in dict_with_data.values():
+            match self.type_of_data:
+                case"json":
+                    parsed_data = json.loads(raw_data)
+                case "raw":
+                    parsed_data = raw_data
+#                case "xml":
+#                    parsed_data = xmltodict.parse(row_data)
+                case _:
+                    raise Exception("Unknown type of data: " + type_of_data)
+
+            self.__erp_process_element(parsed_data, "root/", repeat_nodes)
+
         repeat_nodes = list(repeat_nodes)
         repeat_nodes.sort()
         repeat_nodes.insert(0, "root/")
@@ -58,12 +70,20 @@ class json_parser:
 
         extracted_data = {node_name: [] for node_name in repeat_nodes}
 
-        for id, json_str in jsons_dict.items():
-            parsed_json = json.loads(json_str)
+        for id, raw_data in jsons_dict.items():
+            match self.type_of_data:
+                case"json":
+                    parsed_data = json.loads(raw_data)
+                case "raw":
+                    parsed_data = raw_data
+#                case "xml":
+#                    parsed_data = xmltodict.parse(row_data)
+                case _:
+                    raise Exception("Unknown type of data: " + type_of_data)
             initial_ids_dict = {document_id_column_name: id}
             # we will change it later. So we shouldn't have a link to ids_dict
             extracted_data['root/'].append(initial_ids_dict.copy())
-            self.__ed_process_node(node=parsed_json,
+            self.__ed_process_node(node=parsed_data,
                                    current_repeat_node="root/",
                                    current_path_in_repeat_node="",
                                    current_data=extracted_data,
@@ -96,11 +116,14 @@ class json_parser:
 
     def __erp_process_element(self, node, current_path, repeat_nodes):
         if isinstance(node, list):
-            name = current_path
-            if not self.simplified_arrays:
-                name += "_array_/"
-            repeat_nodes.add(name)
-            self.__erp_process_list(node, current_path, repeat_nodes)
+            if self.ignore_empty_arrays and len(node)==0:
+                pass
+            else:
+                name = current_path
+                if not self.simplified_arrays:
+                    name += "_array_/"
+                repeat_nodes.add(name)
+                self.__erp_process_list(node, current_path, repeat_nodes)
         elif isinstance(node, dict):
             self.__erp_process_dict(node, current_path, repeat_nodes)
         # else - just value. We shouldn't care about them while we a researching for repeat nodes.
@@ -124,7 +147,9 @@ class json_parser:
         return
 
     def __ed_process_node(self, node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes):
-        if isinstance(node, list): 
+        if isinstance(node, list):
+            if self.ignore_empty_arrays and len(node) == 0:
+                return
             self.__ed_process_list(
                 node, current_repeat_node, current_path_in_repeat_node, current_data, ids_dict, repeat_nodes)
         elif self.simplified_arrays and current_path_in_repeat_node != "" and current_repeat_node + current_path_in_repeat_node + "/" in repeat_nodes:
