@@ -1,0 +1,5 @@
+col,type,dataframe
+filename,object,city_count
+branch_count_Jelgava,float64,city_count
+branch_count_Ogre,float64,city_count
+branch_count_Riga,float64,city_count

@@ -1,1 +1,2 @@
-filename;root/branches/_array_/;addr;city;name;GPS/lat;GPS/lon
+filename,root/branches/_array_/,name,addr,city,GPS/lat,GPS/lon
+luminor.json,0,,Skanstes 12,Riga,56.949761,24.110966

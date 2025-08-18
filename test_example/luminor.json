@@ -13,6 +13,13 @@
 		"addr":"Pededzes iela 1",
 		"city":"Mārupe",
 		"additional_info":["ATM"]
+	}],
+	"branches": [{
+		"name":"",
+		"addr":"Skanstes 12",
+		"city":"Riga",
+		"additional_info":["ATM", "ATM24"],
+		"GPS":{"lat":56.949761, "lon":24.110966}
 	}]
 
 }

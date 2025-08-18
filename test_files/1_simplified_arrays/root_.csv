@@ -1,0 +1,2 @@
+filename;str1;bool1;null1;object1/obj_str2;object1/obj_int1
+test_files\1.json;some_value;False;it can be null or not;value_for_str2;82

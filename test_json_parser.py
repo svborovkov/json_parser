@@ -18,10 +18,10 @@ class Test(unittest.TestCase):
         return json_dict
 
 
-    def check_one_case_extract_repeat_nodes(self, file_list, expected_repeat_nodes):
+    def check_one_case_extract_repeat_nodes(self, file_list, simplified_arrays, expected_repeat_nodes):
         json_dict = self.read_files(file_list)
 
-        parser = json_parser_class.json_parser()
+        parser = json_parser_class.json_parser(simplified_arrays=simplified_arrays)
         repeat_nodes = parser.extract_repeat_nodes(json_dict)
 
         self.assertEqual(repeat_nodes, expected_repeat_nodes)
@@ -30,23 +30,37 @@ class Test(unittest.TestCase):
         print("Start test extract_repeat_nodes()")
 
         self.check_one_case_extract_repeat_nodes(["test_files\\1.json", "test_files\\2.json"], 
-                                    ["root/",
+                                                 simplified_arrays=False,
+                                    expected_repeat_nodes = ["root/",
                                     "root/array_object/_array_/",
                                     "root/array_str1/_array_/",
                                     "root/object1/array_int1/_array_/"])
 
         self.check_one_case_extract_repeat_nodes(["test_files\\1.json"], 
-                                    ["root/",
+                                                 simplified_arrays=False,
+                                    expected_repeat_nodes = ["root/",
                                     "root/array_object/_array_/",
                                     "root/object1/array_int1/_array_/"])
 
+        self.check_one_case_extract_repeat_nodes(["test_files\\1.json", "test_files\\2.json"], 
+                                                simplified_arrays=True,
+                                    expected_repeat_nodes= ["root/",
+                                    "root/array_object/",
+                                    "root/array_str1/",
+                                    "root/object1/array_int1/"])
+
+        self.check_one_case_extract_repeat_nodes(["test_files\\1.json"], 
+                                                 simplified_arrays=True,
+                                    expected_repeat_nodes= ["root/",
+                                    "root/array_object/",
+                                    "root/object1/array_int1/"])
         print("\nFinish extract_repeat_nodes() test\n")
 
-    def check_one_case_data_extraction(self, file_list, repeat_nodes, columns_info_fn, test_result_folder):
+    def check_one_case_data_extraction(self, simplified_arrays, file_list, repeat_nodes, columns_info_fn, test_result_folder):
         print("Started check_one_case_data_extraction()" + test_result_folder)
         json_dict = self.read_files(file_list)
 
-        parser = json_parser_class.json_parser()
+        parser = json_parser_class.json_parser(simplified_arrays=simplified_arrays)
         if not repeat_nodes is None and columns_info_fn is None:
             extr_data, extr_columns_info = parser.extract_data(json_dict, "filename", repeat_nodes)
         elif repeat_nodes is None and not columns_info_fn is None:
@@ -74,6 +88,7 @@ class Test(unittest.TestCase):
     def test_1_data_extraction_using_repeat_nodes(self):
         
         self.check_one_case_data_extraction(
+            simplified_arrays = False,
             file_list = ["test_files\\1.json"],
             repeat_nodes = ["root/",
                             "root/array_object/_array_/",
@@ -82,6 +97,7 @@ class Test(unittest.TestCase):
             test_result_folder = "test_files\\1\\")
 
         self.check_one_case_data_extraction(
+            simplified_arrays = False,
             file_list = ["test_files\\2.json"],
             repeat_nodes = ["root/",
                             "root/array_object/_array_/",
@@ -91,16 +107,53 @@ class Test(unittest.TestCase):
             test_result_folder = "test_files\\2\\")
 
         self.check_one_case_data_extraction(
+            simplified_arrays = False,
             file_list = ["test_files\\1.json", "test_files\\2.json"],
             repeat_nodes = None,
             columns_info_fn = "test_files\\1_2_col_info.csv",
             test_result_folder = "test_files\\1_2\\")
 
         self.check_one_case_data_extraction(
+            simplified_arrays = False,
             file_list = ["test_files\\3.json"],
             repeat_nodes = None,
             columns_info_fn = "test_files\\3_col_info.csv",
             test_result_folder = "test_files\\3\\")
+
+        # and now for simplified_arrays
+
+        self.check_one_case_data_extraction(
+            simplified_arrays = True,
+            file_list = ["test_files\\1.json"],
+            repeat_nodes = ["root/",
+                            "root/array_object/",
+                            "root/object1/array_int1/"],
+            columns_info_fn = None,
+            test_result_folder = "test_files\\1_simplified_arrays\\")
+
+        self.check_one_case_data_extraction(
+            simplified_arrays = True,
+            file_list = ["test_files\\2.json"],
+            repeat_nodes = ["root/",
+                            "root/array_object/",
+                            "root/array_str1/",
+                            "root/object1/array_int1/"],
+            columns_info_fn = None,
+            test_result_folder = "test_files\\2_simplified_arrays\\")
+
+        self.check_one_case_data_extraction(
+            simplified_arrays = True,
+            file_list = ["test_files\\1.json", "test_files\\2.json"],
+            repeat_nodes = None,
+            columns_info_fn = "test_files\\1_2_col_info_simplified_arrays.csv",
+            test_result_folder = "test_files\\1_2_simplified_arrays\\")
+
+        self.check_one_case_data_extraction(
+            simplified_arrays = True,
+            file_list = ["test_files\\3.json"],
+            repeat_nodes = None,
+            columns_info_fn = "test_files\\3_col_info_simplified_arrays.csv",
+            test_result_folder = "test_files\\3_simplified_arrays\\")
 
 
 if __name__ == '__main__':

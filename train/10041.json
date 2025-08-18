@@ -38,6 +38,7 @@
 		"addr":"Mātera iela 23/25",
 		"city":"Jelgava",
 		"additional_info":["ATM"]
-	}]
+	}],
+	"array_in_array":[[1,2,3], [4,5,6]]
 
 }
