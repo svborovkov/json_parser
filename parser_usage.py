@@ -21,7 +21,7 @@ def extract_features(extracted_data, additional_columns_info, simplified_arrays)
     city_counts = city_counts.pivot(
         index='filename', columns='city', values='city_count').reset_index()
 
-    json_parser.add_columns_to_df(
+    json_parser.sync_df_columns(
         city_counts, additional_columns_info[additional_columns_info['dataframe'] == 'city_count'])
     additional_columns_info = json_parser.get_df_columns_info_df(
         city_counts, "city_count", additional_columns_info)

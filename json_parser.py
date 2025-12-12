@@ -2,9 +2,27 @@ import json
 import pandas as pd
 
 
+def infer_and_convert_df_types(df):
+    for col in df.columns:
+        if df[col].dtype == object:
+            # try to convert to numeric
+            try:
+                df[col] = pd.to_numeric(df[col])
+                continue
+            except (ValueError, TypeError):
+                pass
+            # try to convert to datetime
+            try:
+                df[col] = pd.to_datetime(df[col])
+            except (ValueError, TypeError):
+                pass
+    return df
+
+
 def get_df_columns_info_df(df,
                            df_name,
                            current_columns_info=pd.DataFrame(columns=["col", "type", "dataframe"], dtype=str)):
+    infer_and_convert_df_types(df)
     col_info = df.dtypes.apply(lambda x: x.name).to_dict()
     add_columns_info_df = pd.DataFrame(col_info.items(), columns=[
         "col", "type"]).assign(dataframe=df_name)
@@ -16,12 +34,18 @@ def get_df_columns_info_df(df,
     return columns_info_df
 
 
-def add_columns_to_df(df, column_info_df):
+def sync_df_columns(df, column_info_df):
     for i in column_info_df.index:
         row = column_info_df.loc[i]
         column_name = row['col']
-        if not column_name in df.columns:
-            df[column_name] = pd.Series([], dtype=row['type'])
+        target_type = row['type']
+        if column_name not in df.columns:
+            df[column_name] = pd.Series([], dtype=target_type)
+        else:
+            if target_type.startswith('datetime64'):
+                df[column_name] = pd.to_datetime(df[column_name])
+            else:
+                df[column_name] = df[column_name].astype(target_type)
     return
 
 
@@ -84,13 +108,7 @@ class json_parser:
 
                 df = extracted_data_dfs[df_name]
 
-                add_columns_to_df(df, df_columns_filterted)
-
-                for i in df_columns_filterted.index:
-                    row = df_columns_filterted.loc[i]
-                    column_name = row['col']
-                    if not column_name in df.columns:
-                        df[column_name] = pd.Series([], dtype=row['type'])
+                sync_df_columns(df, df_columns_filterted)
 
         return extracted_data_dfs, dfs_info.reset_index(drop=True)
 
